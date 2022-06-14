@@ -26,5 +26,4 @@ func main() {
 	}
 	t.Println(s)
 }
-
 ```
