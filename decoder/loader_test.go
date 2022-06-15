@@ -1,4 +1,4 @@
-package secretsloader
+package decoder
 
 import (
 	"os"
