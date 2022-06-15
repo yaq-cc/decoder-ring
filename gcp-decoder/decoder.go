@@ -76,7 +76,7 @@ func (l *GCPLoader) GetBytes(s string) ([]byte, error) {
 	resp, err := l.Client.AccessSecretVersion(l.Context, req)
 	if err != nil {
 		log.Println(err)
-		return []byte{}, ErrSecretLoaderErr
+		return []byte{}, decoder.ErrSecretLoaderErr
 	}
 	value := resp.Payload.GetData()
 	return value, nil

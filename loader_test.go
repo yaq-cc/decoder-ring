@@ -1,8 +1,11 @@
-package decoder
+package main
 
 import (
 	"os"
 	"testing"
+
+	gcp "github.com/yaq-cc/decoder-ring/gcp-decoder"
+	_ "github.com/yaq-cc/decoder-ring/loader"
 )
 
 type Secrets struct {
@@ -14,7 +17,7 @@ func TestSecretsEnvVarLoader(t *testing.T) {
 	var s Secrets
 	os.Setenv("TWILIO_ACCOUNT_SID", "test-sid")
 	os.Setenv("TWILIO_AUTH_TOKEN", "test-token")
-	l := NewLoader(&s)
+	l := loader.NewLoader(&s)
 	l.With(EnvironmentVariableLoader)
 	err := l.Load()
 	if err != nil {
@@ -27,7 +30,7 @@ func TestSecretsGCPLoader(t *testing.T) {
 	// MUST export PROJECT_ID=your-project
 	var s Secrets
 	l := NewLoader(&s)
-	l.With(GoogleCloudLoader)
+	l.With(gcp.GoogleCloudLoader)
 	err := l.Load()
 	if err != nil {
 		t.Fatal(err)
@@ -38,9 +41,9 @@ func TestSecretsGCPLoader(t *testing.T) {
 func TestSecretsGCPLoaderWithOptions(t *testing.T) {
 	// MUST export PROJECT_ID=your-project
 	var s Secrets
-	gcp := NewGoogleCloudLoader(WithProject("holy-diver-297719"))
+	gl := gcp.NewGoogleCloudLoader(gcp.WithProject("holy-diver-297719"))
 	l := NewLoader(&s)
-	l.With(gcp)
+	l.With(gl)
 	err := l.Load()
 	if err != nil {
 		t.Fatal(err)
