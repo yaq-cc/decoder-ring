@@ -1,4 +1,4 @@
-package secretsloader
+package loader
 
 import (
 	"errors"
